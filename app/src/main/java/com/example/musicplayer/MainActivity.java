@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         // Definir Array de ficheiros/diretórios no diretório do ficheiro dado
         File[] files = file.listFiles();
 
-        // Se forem encontrado algum ficheiro/diretório
+        // Se forem encontrados alguns ficheiros/diretórios
         if (files != null) {
             // Para cada um
             for (File f : files) {
