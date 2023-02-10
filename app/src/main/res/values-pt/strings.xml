@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_tracks">Nenhuma faixa encontrada</string>
+    <string name="perm_files_denied">Permissão de acesso aos ficheiros locais recusada.\n\nClica aqui para redirecionar para as definições da aplicação</string>
+    <string name="unavailable_feature">Funcionalidade indisponível</string>
+</resources>
