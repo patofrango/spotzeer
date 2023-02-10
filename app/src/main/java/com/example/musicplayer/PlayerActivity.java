@@ -191,9 +191,14 @@ public class PlayerActivity extends AppCompatActivity {
 
     private void seekToStart() {
         mediaPlayer.seekTo(0);
-        startTrackBarHandler();
         txtCurrentTime.setText(formatTime(mediaPlayer.getCurrentPosition()));
         if (!mediaPlayer.isPlaying()) mediaPlayer.start();
+        startTrackBarHandler();
+    }
+
+    private void seekTo(int millis) {
+        mediaPlayer.seekTo(millis);
+        txtCurrentTime.setText(formatTime(mediaPlayer.getCurrentPosition()));
     }
 
     // Definir listeners
@@ -256,8 +261,7 @@ public class PlayerActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mediaPlayer.seekTo(seekBar.getProgress());
-                txtCurrentTime.setText(formatTime(mediaPlayer.getCurrentPosition()));
+                seekTo(seekBar.getProgress());
             }
         });
     }
