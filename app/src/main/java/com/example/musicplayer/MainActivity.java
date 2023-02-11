@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     // Exibir faixas na ListView
     private void displayTracks() {
         // Detetar todos os caminhos para ficheiros de áudio
-        paths = findTracks(Environment.getExternalStorageDirectory());
+        if (paths == null) paths = findTracks(Environment.getExternalStorageDirectory());
 
         // Se nenhum ficheiro encontrado
         if (paths.size() == 0) {
