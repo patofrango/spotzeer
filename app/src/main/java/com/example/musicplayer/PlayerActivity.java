@@ -139,24 +139,6 @@ public class PlayerActivity extends AppCompatActivity {
         mediaPlayer.start();
     }
 
-    // Handler para atualizar a View do tempo atual a cada X milisegundos
-    private void startCurrentTimeHandler() {
-        currentTimeHandler = new Handler();
-        final int delayMillis = 1000; // Atualizar a cada X milisegundos
-
-        currentTimeHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Gerar o tempo atual em string formatada
-                String formattedCurrentTime = formatTime(mediaPlayer.getCurrentPosition());
-                // Definir o texto da view para a string formatada
-                txtCurrentTime.setText(formattedCurrentTime);
-                // Voltar a correr o método ao fim do delay
-                currentTimeHandler.postDelayed(this, delayMillis);
-            }
-        }, delayMillis);
-    }
-
     // Handler para atualizar a barra da faixa a cada X milisegundos
     private void startTrackBarHandler() {
         trackBarHandler = new Handler();
@@ -172,6 +154,24 @@ public class PlayerActivity extends AppCompatActivity {
             public void run() {
                 trackBar.setProgress(mediaPlayer.getCurrentPosition());
                 trackBarHandler.postDelayed(this, delayMillis);
+            }
+        }, delayMillis);
+    }
+
+    // Handler para atualizar a View do tempo atual a cada X milisegundos
+    private void startCurrentTimeHandler() {
+        currentTimeHandler = new Handler();
+        final int delayMillis = 1000; // Atualizar a cada X milisegundos
+
+        currentTimeHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Gerar o tempo atual em string formatada
+                String formattedCurrentTime = formatTime(mediaPlayer.getCurrentPosition());
+                // Definir o texto da view para a string formatada
+                txtCurrentTime.setText(formattedCurrentTime);
+                // Voltar a correr o método ao fim do delay
+                currentTimeHandler.postDelayed(this, delayMillis);
             }
         }, delayMillis);
     }
