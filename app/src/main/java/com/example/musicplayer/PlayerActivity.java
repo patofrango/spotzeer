@@ -40,6 +40,7 @@ public class PlayerActivity extends AppCompatActivity {
     int currentPosition;
     // Declarar estado do loop
     boolean loop = false;
+    boolean shuffle = false;
     // Declarar Handlers
     Handler currentTimeHandler, trackBarHandler;
 
@@ -177,9 +178,19 @@ public class PlayerActivity extends AppCompatActivity {
 
     // Mudar para a próxima faixa
     private void nextTrack() {
-        // A nova posição é igual ao resto da divisão da próxima pelo número total de faixas
-        currentPosition = ((currentPosition + 1) % paths.size());
+        // Se o shuffle estiver desligado, a nova posição é igual ao resto da divisão da próxima pelo número total de faixas
+        // Senão, retorna posição aleatória
+        currentPosition = (!shuffle) ? ((currentPosition + 1) % paths.size()) : randomPosition();
         updatePlayer();
+    }
+
+    // Retornar posição aleatória na lista de faixas (excluindo a posição atual)
+    private int randomPosition() {
+        ArrayList<Integer> positions = new ArrayList<>();
+        for (int i = 0; i < paths.size(); i++)
+            positions.add(i);
+        positions.remove(currentPosition);
+        return positions.get((int) (Math.random() * positions.size()));
     }
 
     // Mudar para a faixa anterior
@@ -199,6 +210,33 @@ public class PlayerActivity extends AppCompatActivity {
     private void seekTo(int millis) {
         mediaPlayer.seekTo(millis);
         txtCurrentTime.setText(formatTime(mediaPlayer.getCurrentPosition()));
+    }
+
+    private void setNextTrackMode(int mode) {
+        switch (mode) {
+            // Desativar todos
+            case 0:
+                shuffle = loop = false;
+                btnShuffle.getBackground().clearColorFilter();
+                btnLoop.getBackground().clearColorFilter();
+                break;
+            // Modo shuffle
+            case 1:
+                shuffle = true;
+                loop = false;
+                btnShuffle.getBackground().setColorFilter(ResourcesCompat.getColor(getResources(), R.color.selected, null), PorterDuff.Mode.SRC_IN);
+                btnLoop.getBackground().clearColorFilter();
+                break;
+            // Modo loop
+            case 2:
+                shuffle = false;
+                loop = true;
+                btnShuffle.getBackground().clearColorFilter();
+                btnLoop.getBackground().setColorFilter(ResourcesCompat.getColor(getResources(), R.color.selected, null), PorterDuff.Mode.SRC_IN);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + mode);
+        }
     }
 
     // Definir listeners
@@ -228,21 +266,10 @@ public class PlayerActivity extends AppCompatActivity {
         });
 
         // Botão Shuffle
-        btnShuffle.setOnClickListener(view -> {
-            Toast.makeText(PlayerActivity.this, getResources().getString(R.string.unavailable_feature), Toast.LENGTH_SHORT).show();
-        });
+        btnShuffle.setOnClickListener(view -> setNextTrackMode(shuffle ? 0 : 1));
 
         // Botão Loop
-        btnLoop.setOnClickListener(view -> {
-            // Alternar estado do loop
-            loop = !loop;
-            if (loop)
-                // Pinta o botão se o loop estiver ligado
-                btnLoop.getBackground().setColorFilter(ResourcesCompat.getColor(getResources(), R.color.selected, null), PorterDuff.Mode.SRC_IN);
-            else
-                // Remove a tinta
-                btnLoop.getBackground().clearColorFilter();
-        });
+        btnLoop.setOnClickListener(view -> setNextTrackMode(loop ? 0 : 2));
 
         // Botão Lista das Faixas
         btnList.setOnClickListener(view -> startActivity(new Intent(PlayerActivity.this, MainActivity.class)));
