@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Começar a PlayerActivity com os dados passados pelo Intent
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_from_bottom, R.anim.slide_to_top);
         });
     }
 
