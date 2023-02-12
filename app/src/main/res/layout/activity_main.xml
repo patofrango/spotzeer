@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    
+
     <ViewFlipper
         android:id="@+id/viewFlipper"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <include layout="@layout/list_empty" />
+
         <include layout="@layout/list_filled" />
     </ViewFlipper>
 
